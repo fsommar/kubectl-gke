@@ -11,7 +11,7 @@ import (
 	"google.golang.org/api/option"
 )
 
-func GetGoogleCloudClusters(ctx context.Context, project string, location string) ([]*container.Cluster, error) {
+func GetGoogleCloudClusters(ctx context.Context, project, location string) ([]*container.Cluster, error) {
 	client, err := google.DefaultClient(ctx, container.CloudPlatformScope)
 	if err != nil {
 		return nil, err
@@ -29,6 +29,21 @@ func GetGoogleCloudClusters(ctx context.Context, project string, location string
 	}
 
 	return resp.Clusters, nil
+}
+
+func GetGoogleCloudCluster(ctx context.Context, project, location, cluster string) (*container.Cluster, error) {
+	client, err := google.DefaultClient(ctx, container.CloudPlatformScope)
+	if err != nil {
+		return nil, err
+	}
+
+	containerService, err := container.NewService(ctx, option.WithHTTPClient(client))
+	if err != nil {
+		return nil, err
+	}
+
+	name := fmt.Sprintf("projects/%s/locations/%s/clusters/%s", project, location, cluster)
+	return containerService.Projects.Locations.Clusters.Get(name).Context(ctx).Do()
 }
 
 type Credentials struct {
