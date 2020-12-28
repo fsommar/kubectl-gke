@@ -49,11 +49,3 @@ func GetGcpCredentials(ctx context.Context) (*Credentials, error) {
 	}
 	return nil, errors.New("unable to get credentials")
 }
-
-func GetGcpProject(ctx context.Context) (string, error) {
-	creds, err := google.FindDefaultCredentials(ctx, container.CloudPlatformScope)
-	if err != nil {
-		return "", err
-	}
-	return creds.ProjectID, nil
-}

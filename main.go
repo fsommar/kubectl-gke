@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/fsommar/kubectl-get_credentials/cmd"
+	"github.com/fsommar/kubectl-gke/cmd"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 	"os"
 )
@@ -9,7 +9,7 @@ import (
 const version = "v0.1.0"
 
 func main() {
-	getCredentialsCmd := cmd.NewGetCredentialsCommand(genericclioptions.IOStreams{
+	getCredentialsCmd := cmd.NewGkeCommand(genericclioptions.IOStreams{
 		In:     os.Stdin,
 		Out:    os.Stdout,
 		ErrOut: os.Stderr,

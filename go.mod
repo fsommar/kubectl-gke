@@ -1,4 +1,4 @@
-module github.com/fsommar/kubectl-get_credentials
+module github.com/fsommar/kubectl-gke
 
 go 1.14
 

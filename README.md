@@ -1,4 +1,4 @@
-# kubectl get-credentials
+# kubectl gke
 
 This `kubectl` plugin effectively replaces the `gcloud container clusters get-credentials` command, allowing for more
 choice while avoiding annoyances such as changing the current context when adding new contexts. It also uses its own
@@ -11,23 +11,29 @@ _Why would I use this plugin?_
 * Do you want to update your cluster details independent of your contexts?
 * Do you switch between contexts often, and are encumbered by `gcloud` having to fetch new credentials each time?
 
-If your answer is yes to either of those questions, `kubectl get-credentials` might be for you!
+If your answer is yes to either of those questions, `kubectl gke` might be for you!
 
 ## Example usage
 
 ```sh
-kubectl get-credentials gcp --project fredriksommar \
-  --selector env=production,tier!=foo \
-  --template '{{ .Cluster.Name }}' \
-  --create-contexts
+# kubectl gke get-credentials $PROJECT \
+    --selector env=production,tier!=foo \
+    --format '{{ .Cluster.Name }}'
 ```
 
 or equivalently
 
 ```sh
-kubectl get-credentials gcp -p fredriksommar -lenv=production,tier!=foo -xt '{{ .Cluster.Name }}'
+# kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo -f'{{ .Cluster.Name }}'
+```
+
+or equivalently
+
+```sh
+# export KUBECTL_GKE_CONTEXT_TEMPLATE='{{ .Cluster.Name }}'
+# kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo
 ```
 
 ## Installation
 
-Clone this repo and run `go install`. To verify that it's working as expected, run `kubectl get-credentials gcp --help`.
+Clone this repo and run `go install`. To verify that it's working as expected, run `kubectl gke --help`.
