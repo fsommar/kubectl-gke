@@ -16,7 +16,7 @@ If your answer is yes to either of those questions, `kubectl gke` might be for y
 ## Example usage
 
 ```sh
-# kubectl gke get-credentials $PROJECT \
+kubectl gke get-credentials $PROJECT \
     --selector env=production,tier!=foo \
     --format '{{ .Cluster.Name }}'
 ```
@@ -24,16 +24,20 @@ If your answer is yes to either of those questions, `kubectl gke` might be for y
 or equivalently
 
 ```sh
-# kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo -f'{{ .Cluster.Name }}'
+kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo -f'{{ .Cluster.Name }}'
 ```
 
 or equivalently
 
 ```sh
-# export KUBECTL_GKE_CONTEXT_TEMPLATE='{{ .Cluster.Name }}'
-# kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo
+export KUBECTL_GKE_CONTEXT_TEMPLATE='{{ .Cluster.Name }}'
+kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo
 ```
 
 ## Installation
 
-Clone this repo and run `go install`. To verify that it's working as expected, run `kubectl gke --help`.
+```sh
+go install github.com/fsommar/kubectl-gke
+```
+
+To verify that it's working as expected, run `kubectl gke --help`.
