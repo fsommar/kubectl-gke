@@ -30,7 +30,7 @@ kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo -f'{{ .Cluster.N
 or equivalently
 
 ```sh
-export KUBECTL_GKE_CONTEXT_TEMPLATE='{{ .Cluster.Name }}'
+export KUBECTL_GKE_CONTEXT_FORMAT='{{ .Cluster.Name }}'
 kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo
 ```
 
