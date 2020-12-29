@@ -27,7 +27,7 @@ func UpsertContext(cfg *clientcmdapi.Config, contextName, clusterName, user stri
 	cfg.Contexts[contextName] = &c
 }
 
-func UpsertUser(cfg *clientcmdapi.Config, user, cmdPath, cmdArgs string) {
+func UpsertUser(cfg *clientcmdapi.Config, user string, config map[string]string) {
 	authInfo, exists := cfg.AuthInfos[user]
 	if !exists {
 		authInfo = clientcmdapi.NewAuthInfo()
@@ -37,11 +37,8 @@ func UpsertUser(cfg *clientcmdapi.Config, user, cmdPath, cmdArgs string) {
 	// auth provider is one of the existing in-tree ones, and it expects the cmd-path and cmd-args to produce a JSON
 	// output with an access token (`.access_token`) and expiration time (`.expiry_time`).
 	a.AuthProvider = &clientcmdapi.AuthProviderConfig{
-		Name: "gcp",
-		Config: map[string]string{
-			"cmd-path": cmdPath,
-			"cmd-args": cmdArgs,
-		},
+		Name:   "gcp",
+		Config: config,
 	}
 	cfg.AuthInfos[user] = &a
 }

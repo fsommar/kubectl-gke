@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/fsommar/kubectl-gke/cmd"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
-	"os"
 )
 
 const version = "v0.1.0"

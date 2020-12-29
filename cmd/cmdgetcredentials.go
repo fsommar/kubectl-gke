@@ -97,7 +97,10 @@ func (g *getCredentialsCommand) runE(cmd *cobra.Command, _ []string) error {
 		// CommandPath includes name of the root command, which is not used in the invocation.
 		args := strings.Replace(authCmd.CommandPath(), cmd.Root().Name()+" ", "", 1)
 
-		config.UpsertUser(cfg, "kubectl-gke", path, args)
+		config.UpsertUser(cfg, "kubectl-gke", map[string]string{
+			"cmd-path": path,
+			"cmd-args": args,
+		})
 	}
 
 	return clientcmd.ModifyConfig(options, *cfg, true)
