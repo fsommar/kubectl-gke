@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/fsommar/kubectl-gke/internal"
+	"github.com/fsommar/kubectl-gke/pkg"
+
 	"github.com/spf13/cobra"
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 )
@@ -20,7 +21,7 @@ func NewAuthCommand(streams genericclioptions.IOStreams) *cobra.Command {
 			ctx, cancel := context.WithTimeout(cmd.Context(), 5*time.Second)
 			defer cancel()
 
-			auth, err := internal.GetGcpCredentials(ctx)
+			auth, err := pkg.GetGcpCredentials(ctx)
 			if err != nil {
 				return err
 			}

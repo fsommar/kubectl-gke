@@ -36,8 +36,10 @@ kubectl gke get-credentials $PROJECT -lenv=production,tier!=foo
 
 ## Installation
 
+To install `kubectl gke`, run the following outside of a Go module:
+
 ```sh
-go install github.com/fsommar/kubectl-gke
+env GO111MODULE=on go get github.com/fsommar/kubectl-gke
 ```
 
 To verify that it's working as expected, run `kubectl gke --help`.
