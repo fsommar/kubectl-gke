@@ -19,11 +19,13 @@ func GetGcpCredentials(ctx context.Context) (*Credentials, error) {
 	if err != nil {
 		return nil, err
 	}
+
 	if token, err := creds.TokenSource.Token(); err == nil && token.Valid() {
 		return &Credentials{
 			AccessToken: token.AccessToken,
 			ExpiryTime:  token.Expiry.UTC().Format(time.RFC3339),
 		}, nil
 	}
+
 	return nil, errors.New("unable to get credentials")
 }

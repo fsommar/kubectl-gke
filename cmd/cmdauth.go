@@ -32,5 +32,6 @@ func NewAuthCommand(streams genericclioptions.IOStreams) *cobra.Command {
 			_, err = fmt.Fprintln(streams.Out, string(b))
 			return err
 		}}
+
 	return &cmd
 }

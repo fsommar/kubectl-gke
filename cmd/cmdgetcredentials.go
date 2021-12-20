@@ -62,6 +62,7 @@ func (g *getCredentialsCommand) runE(cmd *cobra.Command, _ []string) error {
 	}
 
 	options := clientcmd.NewDefaultPathOptions()
+
 	cfg, err := options.GetStartingConfig()
 	if err != nil {
 		return err
@@ -76,11 +77,13 @@ func (g *getCredentialsCommand) runE(cmd *cobra.Command, _ []string) error {
 		// Maintain compatibility with gcloud's default cluster names.
 		clusterName, _ := pkg.DefaultContextName(g.project, cluster)
 		config.UpsertCluster(cfg, clusterName, cluster)
+
 		if g.shouldCreateContexts() {
 			contextName, err := contextNameFactory.For(g.project, cluster)
 			if err != nil {
 				return err
 			}
+
 			config.UpsertContext(cfg, contextName, clusterName, "kubectl-gke")
 		}
 	}
@@ -90,10 +93,12 @@ func (g *getCredentialsCommand) runE(cmd *cobra.Command, _ []string) error {
 		if err != nil {
 			return err
 		}
+
 		authCmd, _, err := cmd.Root().Find([]string{authCmdName})
 		if err != nil {
 			return err
 		}
+
 		// CommandPath includes name of the root command, which is not used in the invocation.
 		args := strings.Replace(authCmd.CommandPath(), cmd.Root().Name()+" ", "", 1)
 

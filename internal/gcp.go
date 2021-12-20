@@ -21,6 +21,7 @@ func GetGoogleCloudClusters(ctx context.Context, project, location string) ([]*c
 	}
 
 	parent := fmt.Sprintf("projects/%s/locations/%s", project, location)
+
 	resp, err := containerService.Projects.Locations.Clusters.List(parent).Context(ctx).Do()
 	if err != nil {
 		return nil, err
@@ -41,5 +42,6 @@ func GetGoogleCloudCluster(ctx context.Context, project, location, cluster strin
 	}
 
 	name := fmt.Sprintf("projects/%s/locations/%s/clusters/%s", project, location, cluster)
+
 	return containerService.Projects.Locations.Clusters.Get(name).Context(ctx).Do()
 }

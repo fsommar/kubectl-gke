@@ -1,6 +1,8 @@
 package main
 
 import (
+	"github.com/go-logr/logr"
+	"k8s.io/klog/v2"
 	"os"
 
 	"github.com/fsommar/kubectl-gke/cmd"
@@ -10,6 +12,8 @@ import (
 const version = "v0.1.0"
 
 func main() {
+	klog.SetLogger(logr.Discard())
+
 	getCredentialsCmd := cmd.NewGkeCommand(genericclioptions.IOStreams{
 		In:     os.Stdin,
 		Out:    os.Stdout,
