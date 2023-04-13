@@ -111,6 +111,6 @@ func (g *getCredentialsCommand) runE(cmd *cobra.Command, _ []string) error {
 	return clientcmd.ModifyConfig(options, *cfg, true)
 }
 
-func (g getCredentialsCommand) shouldCreateContexts() bool {
+func (g *getCredentialsCommand) shouldCreateContexts() bool {
 	return !g.noCreateContexts
 }

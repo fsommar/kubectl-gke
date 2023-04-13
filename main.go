@@ -9,7 +9,7 @@ import (
 	"k8s.io/cli-runtime/pkg/genericclioptions"
 )
 
-const version = "v0.1.0"
+const version = "v0.2.0"
 
 func main() {
 	klog.SetLogger(logr.Discard())

@@ -10,8 +10,8 @@ import (
 )
 
 type Credentials struct {
-	AccessToken string `json:"access_token"`
-	ExpiryTime  string `json:"token_expiry"`
+	AccessToken string    `json:"access_token"`
+	ExpiryTime  time.Time `json:"token_expiry"`
 }
 
 func GetGcpCredentials(ctx context.Context) (*Credentials, error) {
@@ -23,9 +23,9 @@ func GetGcpCredentials(ctx context.Context) (*Credentials, error) {
 	if token, err := creds.TokenSource.Token(); err == nil && token.Valid() {
 		return &Credentials{
 			AccessToken: token.AccessToken,
-			ExpiryTime:  token.Expiry.UTC().Format(time.RFC3339),
+			ExpiryTime:  token.Expiry.UTC(),
 		}, nil
 	}
 
-	return nil, errors.New("unable to get credentials")
+	return nil, errors.New("unable to get credentials, consider running `gcloud auth application-default login`")
 }

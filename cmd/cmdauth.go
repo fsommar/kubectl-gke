@@ -4,6 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	v1 "k8s.io/client-go/pkg/apis/clientauthentication/v1"
 	"time"
 
 	"github.com/fsommar/kubectl-gke/pkg"
@@ -25,7 +27,20 @@ func NewAuthCommand(streams genericclioptions.IOStreams) *cobra.Command {
 			if err != nil {
 				return err
 			}
-			b, err := json.Marshal(auth)
+
+			exp := metav1.NewTime(auth.ExpiryTime)
+			cred := v1.ExecCredential{
+				TypeMeta: metav1.TypeMeta{
+					APIVersion: v1.SchemeGroupVersion.String(),
+					Kind:       "ExecCredential",
+				},
+				Status: &v1.ExecCredentialStatus{
+					ExpirationTimestamp: &exp,
+					Token:               auth.AccessToken,
+				},
+			}
+
+			b, err := json.Marshal(cred)
 			if err != nil {
 				return err
 			}
