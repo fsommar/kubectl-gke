@@ -2,6 +2,8 @@ package cmd
 
 import (
 	"context"
+	clientauthenticationv1 "k8s.io/client-go/pkg/apis/clientauthentication/v1"
+	clientcmdapi "k8s.io/client-go/tools/clientcmd/api"
 	"os"
 	"strings"
 	"time"
@@ -102,10 +104,15 @@ func (g *getCredentialsCommand) runE(cmd *cobra.Command, _ []string) error {
 		// CommandPath includes name of the root command, which is not used in the invocation.
 		args := strings.Replace(authCmd.CommandPath(), cmd.Root().Name()+" ", "", 1)
 
-		config.UpsertUser(cfg, "kubectl-gke", map[string]string{
-			"cmd-path": path,
-			"cmd-args": args,
-		})
+		user := config.GetOrCreateUser(cfg, "kubectl-gke")
+
+		*user = *clientcmdapi.NewAuthInfo()
+		user.Exec = &clientcmdapi.ExecConfig{
+			Command:         path,
+			Args:            []string{args},
+			APIVersion:      clientauthenticationv1.SchemeGroupVersion.String(),
+			InteractiveMode: clientcmdapi.NeverExecInteractiveMode,
+		}
 	}
 
 	return clientcmd.ModifyConfig(options, *cfg, true)

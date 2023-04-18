@@ -42,3 +42,10 @@ func UpsertUser(cfg *clientcmdapi.Config, user string, config map[string]string)
 	}
 	cfg.AuthInfos[user] = &a
 }
+
+func GetOrCreateUser(cfg *clientcmdapi.Config, user string) *clientcmdapi.AuthInfo {
+	if _, ok := cfg.AuthInfos[user]; !ok {
+		cfg.AuthInfos[user] = clientcmdapi.NewAuthInfo()
+	}
+	return cfg.AuthInfos[user]
+}
